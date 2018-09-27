@@ -43,6 +43,7 @@
     lineinfile:
       path: /etc/default/locale
       line: 'LC_ALL="en_US.UTF-8"'
+    notify: rebuild locales database
 
   - name: Add information to MOTD
     lineinfile:

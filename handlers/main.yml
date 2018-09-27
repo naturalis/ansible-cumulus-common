@@ -6,4 +6,12 @@
   command: /usr/sbin/dpkg-reconfigure --frontend noninteractive tzdata
 
 - name: restart ntp
-  service: name=ntp@mgmt state=restarted
+  service:
+    name: ntp@mgmt
+    state: restarted
+
+- name: rebuild locales database
+  command: "en_US.UTF-8"
+  with_items:
+    - dpkg-reconfigure locales -f noninteractive
+    - /usr/sbin/locale-gen
