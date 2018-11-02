@@ -45,6 +45,10 @@
       line: 'LC_ALL="en_US.UTF-8"'
     notify: rebuild locales database
 
+  - name: Locale-gen
+    command: locale-gen en_US en_US.UTF-8
+    notify: rebuild locales database
+
   - name: Add information to MOTD
     lineinfile:
       path: /etc/motd

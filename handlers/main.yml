@@ -11,7 +11,4 @@
     state: restarted
 
 - name: rebuild locales database
-  command: "en_US.UTF-8"
-  with_items:
-    - sudo /usr/sbin/locale-gen
-    - sudo dpkg-reconfigure locales -f noninteractive
+  command: /usr/sbin/dpkg-reconfigure locales -f noninteractive
