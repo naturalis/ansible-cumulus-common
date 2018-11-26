@@ -44,10 +44,12 @@
       path: /etc/default/locale
       line: 'LC_ALL="en_US.UTF-8"'
     notify: rebuild locales database
+    register: localegen
 
   - name: Locale-gen
     command: locale-gen en_US en_US.UTF-8
     notify: rebuild locales database
+    when: localegen.changed
 
   - name: Add information to MOTD
     lineinfile:
