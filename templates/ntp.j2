@@ -13,7 +13,7 @@ filegen clockstats file clockstats type day enable
 # Define NTP Servers
 {% if ntp is defined %}
 {% for item in ntp %}
-server {{ item }}
+server {{ item }} iburst
 {% endfor %}
 {% endif %}
 
@@ -26,4 +26,8 @@ restrict 127.0.0.1
 restrict ::1
 
 # Specify interfaces, don't listen on switch ports
-interface listen eth0
+{% if ntp is defined %}
+{% for item in ntp %}
+interface listen {{ item }}
+{% endfor %}
+{% endif %}
