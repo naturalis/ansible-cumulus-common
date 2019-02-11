@@ -127,8 +127,7 @@
       state: absent
     tags:
       - dns
-tags:
-      - motd
+
   - name: Add Local DNS Resolution for our Hostname
     lineinfile:
       path: /etc/hosts
