@@ -5,26 +5,36 @@
       src: ntp.j2
       dest: /etc/ntp.conf
     notify: restart ntp
+    tags:
+      - ntp
 
   - name: stop ntp
     service:
       name: ntp
       state: stopped
+    tags:
+      - ntp
 
   - name: disable ntp
     service:
       name: ntp
       enabled: no
+    tags:
+      - ntp
 
   - name: enable ntp@mgmt
     service:
       name: ntp@mgmt
       enabled: yes
+    tags:
+      - ntp
 
   - name: start ntp@mgmt
     service:
       name: ntp@mgmt
       state: started
+    tags:
+      - ntp
 
   - name: Write Timezone File
     lineinfile:
@@ -33,11 +43,15 @@
       line: "{{ timezone }}"
       backrefs: yes
     notify: apply timezone
+    tags:
+      - timezone
 
   - name: Ensure a locale exists
     locale_gen:
       name: en_US.UTF-8
       state: present
+    tags:
+      - locale
 
   - name: Set default locale to en_US.UTF.8
     lineinfile:
@@ -45,29 +59,39 @@
       line: 'LC_ALL="en_US.UTF-8"'
     notify: rebuild locales database
     register: localegen
+    tags:
+      - locale
 
   - name: Locale-gen
     command: locale-gen en_US en_US.UTF-8
     notify: rebuild locales database
     when: localegen.changed
+    tags:
+      - locale
 
   - name: Add information to MOTD
     lineinfile:
       path: /etc/motd
       regexp: '^#(.*)System info:(.*)$'
       line: "#    System info: {{ inventory_hostname }} / {{ansible_product_name}} / {{ansible_lsb.description}}"
+    tags:
+      - motd
 
   - name: Get the serial number
     shell: decode-syseeprom | grep Serial | awk  '{print $NF}'
     register: serial
     ignore_errors: True
     changed_when: no
+    tags:
+      - motd
 
   - name: Add serial to MOTD
     lineinfile:
       path: /etc/motd
       regexp: '^#(.*)Serial:(.*)$'
       line: "#                   Serial: {{ serial.stdout }}"
+    tags:
+      - motd
 
   - name: write hostname
     lineinfile:
@@ -77,6 +101,8 @@
       line: '{{ inventory_hostname }}'
       state: present
     notify: apply hostname
+    tags:
+      - dns
 
   - name: Remove cumulus hostname from Local DNS Resolution
     lineinfile:
@@ -85,6 +111,8 @@
       backrefs: no
       line: '127.0.1.1  cumulus'
       state: absent
+    tags:
+      - dns
 
   - name: Add Local DNS Resolution for our Hostname
     lineinfile:
@@ -94,3 +122,14 @@
       line: '127.0.1.1  {{ inventory_hostname }}'
       state: present
     notify: apply hostname
+    tags:
+      - dns
+
+  - name: Set up resolv.conf
+    lineinfile:
+      path: /etc/resolv.conf
+      regexp: '^'
+      line: "nameserver {{ item }}"
+    with_items: "{{ resolv_conf }}"
+    tags:
+      - resolv
