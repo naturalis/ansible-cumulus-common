@@ -8,30 +8,44 @@
     tags:
       - ntp
 
-  - name: stop ntp
+#  - name: stop ntp
+#    service:
+#      name: ntp
+#      state: stopped
+#    tags:
+#      - ntp
+
+#  - name: disable ntp
+#    service:
+#      name: ntp
+#      enabled: no
+#    tags:
+#      - ntp
+
+#  - name: enable ntp@mgmt
+#    service:
+#      name: ntp@mgmt
+#      enabled: yes
+#    tags:
+#      - ntp
+
+#  - name: start ntp@mgmt
+#    service:
+#      name: ntp@mgmt
+#      state: started
+#    tags:
+#      - ntp
+
+  - name: enable ntp
     service:
       name: ntp
-      state: stopped
-    tags:
-      - ntp
-
-  - name: disable ntp
-    service:
-      name: ntp
-      enabled: no
-    tags:
-      - ntp
-
-  - name: enable ntp@mgmt
-    service:
-      name: ntp@mgmt
       enabled: yes
     tags:
       - ntp
 
-  - name: start ntp@mgmt
+  - name: start ntp
     service:
-      name: ntp@mgmt
+      name: ntp
       state: started
     tags:
       - ntp
@@ -113,7 +127,8 @@
       state: absent
     tags:
       - dns
-
+tags:
+      - motd
   - name: Add Local DNS Resolution for our Hostname
     lineinfile:
       path: /etc/hosts
