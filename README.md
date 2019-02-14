@@ -1,6 +1,7 @@
 # Ansible Role: Cumulus common
 
 This role will set common settings like NTP, Hostname, Timezone, and a nice MOTD.
+
 Naturalis uses this role together with a private inventory.
 
 ## Requirements
