@@ -1,13 +1,7 @@
 # Ansible Role: Cumulus common
 
-Used in [network](https://github.com/naturalis/network/) repo.
-
-Runnable with:
-```bash
-ansible-playbook playbooks/cumulus_provision.yml -i environments/prod
-```
-
 This role will set common settings like NTP, Hostname, Timezone, and a nice MOTD.
+Naturalis uses this role together with a private inventory.
 
 ## Requirements
 
@@ -17,11 +11,15 @@ None.
 
 Available variables are listed below.
 ```bash
+timezone: 'Etc/UTC'
+resolv_conf:
+  - 10.114.0.1
 ntp:
-  - '172.16.200.1'
-  - '172.16.44.10'
-
-timezone: 'Europe/Amsterdam'
+  servers:
+    - '192.168.1.1'
+    - '192.168.1.2'
+  interfaces:
+    - vlan114
 ```
 
 ## Dependencies
@@ -29,11 +27,11 @@ timezone: 'Europe/Amsterdam'
 None.
 
 ## Example Playbook
-
+```bash
     - hosts: switches
       roles:
         - ansible-cumulus-common
-
+```
 ## License
 
 Apache2
