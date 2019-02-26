@@ -1,0 +1,17 @@
+---
+- name: Ensure a locale exists
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+
+- name: Set default locale to en_US.UTF.8
+  lineinfile:
+    path: /etc/default/locale
+    line: 'LC_ALL="en_US.UTF-8"'
+  notify: rebuild locales database
+  register: localegen
+
+- name: Locale-gen
+  command: locale-gen en_US en_US.UTF-8
+  notify: rebuild localocaleles database
+  when: localegen.changed

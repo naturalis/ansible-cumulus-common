@@ -1,0 +1,9 @@
+---
+- name: write hostname
+  lineinfile:
+    path: /etc/hostname
+    regexp: '^'
+    backrefs: no
+    line: '{{ inventory_hostname }}'
+    state: present
+  notify: apply hostname

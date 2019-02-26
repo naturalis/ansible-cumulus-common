@@ -1,0 +1,60 @@
+---
+- name: Setup NTP
+  template:
+    src: ntp.j2
+    dest: /etc/ntp.conf
+  notify: restart ntp
+  tags:
+    - ntp
+
+#  - name: stop ntp
+#    service:
+#      name: ntp
+#      state: stopped
+#    tags:
+#      - ntp
+
+#  - name: disable ntp
+#    service:
+#      name: ntp
+#      enabled: no
+#    tags:
+#      - ntp
+
+#  - name: enable ntp@mgmt
+#    service:
+#      name: ntp@mgmt
+#      enabled: yes
+#    tags:
+#      - ntp
+
+#  - name: start ntp@mgmt
+#    service:
+#      name: ntp@mgmt
+#      state: started
+#    tags:
+#      - ntp
+
+- name: enable ntp
+  service:
+    name: ntp
+    enabled: yes
+  tags:
+    - ntp
+
+- name: start ntp
+  service:
+    name: ntp
+    state: started
+  tags:
+    - ntp
+
+  - name: Write Timezone File
+    lineinfile:
+      path: /etc/timezone
+      regexp: '^'
+      line: "{{ timezone }}"
+      backrefs: yes
+    notify: apply timezone
+    tags:
+      - timezone

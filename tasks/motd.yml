@@ -1,0 +1,18 @@
+---
+- name: Add information to MOTD
+  lineinfile:
+    path: /etc/motd
+    regexp: '^#(.*)System info:(.*)$'
+    line: "#    System info: {{ inventory_hostname }} / {{ansible_product_name}} / {{ansible_lsb.description}}"
+
+- name: Get the serial number
+  shell: decode-syseeprom | grep Serial | awk  '{print $NF}'
+  register: serial
+  ignore_errors: True
+  changed_when: no
+
+- name: Add serial to MOTD
+  lineinfile:
+    path: /etc/motd
+    regexp: '^#(.*)Serial:(.*)$'
+    line: "#                   Serial: {{ serial.stdout }}"

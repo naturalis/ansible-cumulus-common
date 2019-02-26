@@ -1,0 +1,24 @@
+---
+- name: Remove cumulus hostname from Local DNS Resolution
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^.*  cumulus'
+    backrefs: no
+    line: '127.0.1.1  cumulus'
+    state: absent
+
+- name: Add Local DNS Resolution for our Hostname
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^.*  {{ inventory_hostname }}'
+    backrefs: no
+    line: '127.0.1.1  {{ inventory_hostname }}'
+    state: present
+  notify: apply hostname
+
+- name: Set up resolv.conf
+  lineinfile:
+    path: /etc/resolv.conf
+    regexp: '^'
+    line: "nameserver {{ item }}"
+  with_items: "{{ resolv_conf }}"
