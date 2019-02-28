@@ -49,12 +49,12 @@
   tags:
     - ntp
 
-  - name: Write Timezone File
-    lineinfile:
-      path: /etc/timezone
-      regexp: '^'
-      line: "{{ timezone }}"
-      backrefs: yes
-    notify: apply timezone
-    tags:
-      - timezone
+- name: Write Timezone File
+  lineinfile:
+    path: /etc/timezone
+    regexp: '^'
+    line: "{{ timezone }}"
+    backrefs: yes
+  notify: apply timezone
+  tags:
+    - timezone
