@@ -13,5 +13,5 @@
 
 - name: Locale-gen
   command: locale-gen en_US en_US.UTF-8
-  notify: rebuild localocaleles database
+  notify: rebuild locales database
   when: localegen.changed
