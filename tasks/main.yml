@@ -20,3 +20,7 @@
 - import_tasks: dns.yml
   tags:
     - dns
+
+- import_tasks: ssh.yml
+  tags:
+    - ssh

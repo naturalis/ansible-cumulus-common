@@ -1,0 +1,13 @@
+---
+- name: Disable and stop ssh.service
+  systemd:
+    name: ssh.service
+    enabled: no
+    state: stopped
+
+- name: Enable and start ssh@mgmt.service
+  systemd:
+    name: ssh@mgmt.service
+    daemon_reload: yes
+    enabled: yes
+    state: started
