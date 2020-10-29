@@ -11,7 +11,9 @@ None.
 ## Role Variables
 
 Available variables are listed below.
-```bash
+
+```yaml
+cumulus_pass: CumulusLinux!
 timezone: 'Etc/UTC'
 resolv_conf:
   - 10.114.0.1

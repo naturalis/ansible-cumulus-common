@@ -1,6 +1,12 @@
 ---
 # Set common settings like NTP, Hostname, Timezone
 
+- name: Change cumulus user creds
+  user:
+    name: cumulus
+    password: "{{ cumulus_pass }}"
+    update_password: always
+
 - import_tasks: time.yml
   tags:
     - time
